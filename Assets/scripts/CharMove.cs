@@ -7,7 +7,7 @@ public class CharMove : MonoBehaviour
     //Current charachter's velocity, used for gravity
     private Vector3 playerVelocity;
     private bool groundedPlayer;
-    
+
 
     //Set Up
     public CharacterController controller;
@@ -18,10 +18,11 @@ public class CharMove : MonoBehaviour
     public float gravityValue = -9.81f;
     public bool isSeen;
     public float numReflection; //external mirror count
+    public Vector3 offsetSpawn = new Vector3(1, 0, 0);
 
-    public Vector3 thisMirror = new Vector3(1, 1, 1); // start mirror
+    public GameObject thisMirror; // start mirror
 
-    public Vector3 lastMirror = new Vector3(1, 1, 1);
+    public GameObject lastMirror;
 
 
     // Start is called before the first frame update
@@ -36,7 +37,7 @@ public class CharMove : MonoBehaviour
     {
 
         //check if atleast one external mirror is is looking and update global boolean status
-        if(numReflection > 0)
+        if (numReflection > 0)
         {
             isSeen = true;
         }
@@ -62,13 +63,13 @@ public class CharMove : MonoBehaviour
 
         //Accelerate if airborn for gravity effect
         playerVelocity.y += gravityValue * Time.deltaTime;
-        
+
         //Update one Vector3 of all movement with 3 vectors of x,y,z
         Vector3 move = x * Vector3.right + z * Vector3.forward + playerVelocity;
 
         //get directional vector
         move = transform.TransformDirection(move);
-       
+
         //apply actual movement normalized by the change in time scaled to the inputted player speed
         controller.Move(move * Time.deltaTime * playerSpeed);
 
@@ -78,6 +79,7 @@ public class CharMove : MonoBehaviour
 
     public void ResetThismonster()
     {
-       monstScript.reset();
+        Debug.Log("main monster reset");
+        monstScript.reset();
     }
 }

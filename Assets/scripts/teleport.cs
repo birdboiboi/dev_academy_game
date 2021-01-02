@@ -4,37 +4,39 @@ using UnityEngine;
 
 public class teleport : MonoBehaviour
 {
-    public Transform next;
+    public GameObject next;
+    public GameObject prev;
     public GameObject player;
-    public Vector3 offsetSpawn = new Vector3(1, 0, 0);
+    public Vector3 offsetSpawn = new Vector3(0, 0, 0);
     public CharacterController charController;
-    public CharMove playerScript;
+    private CharMove playerScript;
+
 
     void Start()
     {
         charController = player.GetComponent<CharacterController>();
         playerScript = player.GetComponent<CharMove>();
-        Debug.Log("howdy");
+        //Debug.Log("howdy");
         //charController.enabled = false;
     }
 
     void OnTriggerEnter(Collider col)
     {
-
+        Debug.Log(this.name);
         if (col.gameObject == player)
         {
             Debug.Log(col.name + "trigger enter");
-            Debug.Log(col.gameObject.transform.position);
-            Debug.Log(next.position + Vector3.Scale(next.forward, offsetSpawn));
+            //Debug.Log(col.gameObject.transform.position);
+            //Debug.Log(next.position + Vector3.Scale(next.forward, offsetSpawn));
             // Instantiate(player, next.position, player.transform.rotation);
 
             charController.enabled = false;
-            player.transform.position = next.position + Vector3.Scale(next.up, offsetSpawn);
+            player.transform.position = next.transform.position + offsetSpawn;
             charController.enabled = true;
 
             playerScript.lastMirror = playerScript.thisMirror;
-            playerScript.thisMirror = player.transform.position;
-            
+            playerScript.thisMirror = next;
+
             //Destroy(col.gameObject);
             //player.transform.Translate(0, 1000, 0);
             //Destroy(player);
@@ -42,7 +44,7 @@ public class teleport : MonoBehaviour
         }
         else
         {
-            col.gameObject.transform.position = next.position + Vector3.Scale(next.up, offsetSpawn);
+            col.gameObject.transform.position = next.transform.position + offsetSpawn;
         }
     }
 }

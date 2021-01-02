@@ -21,7 +21,7 @@ public class MirrorNonTelport : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
         Vector3 screenPoint = cam.WorldToViewportPoint(target.transform.position);
         onScreen = screenPoint.z > 0 && screenPoint.x > 0 && screenPoint.x < 1 && screenPoint.y > 0 && screenPoint.y < 1 && playerSeen();
 
@@ -59,7 +59,7 @@ public class MirrorNonTelport : MonoBehaviour
                     return true;
                 }
             }
-            Debug.Log("none");
+            // Debug.Log("none");
             return false;
 
             // Debug.Log(this.name + distanceToWall);

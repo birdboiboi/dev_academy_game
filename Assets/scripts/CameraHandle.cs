@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class CameraHandle : MonoBehaviour
 {
-    
-    
+
+
     //Setup
     private Camera cam;
-   
+
 
     public Shader normalShader;
     public Transform body;
@@ -62,7 +62,7 @@ public class CameraHandle : MonoBehaviour
         //creates "00000001" where 1 is the 8th layer in the unity edittor(grabbable)
         int layerMask = 1 << 8;
 
-        
+
         RaycastHit hit;
 
         //check if player is not holding an object
@@ -141,8 +141,8 @@ public class CameraHandle : MonoBehaviour
             }
             if (isRotate && item != null)
             {
-                Debug.Log("isRotate" + isRotate + "item"+item.name);
-                item.transform.Rotate(0, rotateSpeed* Time.deltaTime, 0);
+                Debug.Log("isRotate" + isRotate + "item" + item.name);
+                item.transform.Rotate(0, rotateSpeed * Time.deltaTime, 0);
             }
 
         }
