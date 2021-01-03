@@ -15,8 +15,10 @@ public class MonsterTrickle : MonoBehaviour
     //Setup
     public GameObject player;
     public Camera playerCamera;
+    public Animator anim;
 
-    
+
+
     //Properties
     public float startingDist= 10;
     public float movingRate = 1;
@@ -40,6 +42,7 @@ public class MonsterTrickle : MonoBehaviour
         playerScript = player.GetComponent<CharMove>();
         masterPlayerScript = masterPlayer.GetComponent<CharMove>();
         masterCharController = masterPlayer.GetComponent<CharacterController>();
+        //anim = transform.GetChild(3).GetComponent<Animator>();
 
     }
 
@@ -84,6 +87,17 @@ public class MonsterTrickle : MonoBehaviour
             masterPlayerScript.thisMirror = masterPlayerScript.thisMirror.GetComponent<teleport>().prev;
             masterPlayerScript.lastMirror = masterPlayerScript.thisMirror.GetComponent<teleport>().prev;
 
+        }
+
+        if (masterPlayerScript.move.x != 0 && masterPlayerScript.move.z != 0)
+        {
+            anim.Play("walk");
+           
+        }
+        else
+        {
+            anim.Play("idle");
+           
         }
 
     }

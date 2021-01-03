@@ -12,6 +12,7 @@ public class teleport : MonoBehaviour
     public CharacterController charController;
     private CharMove playerScript;
     private MonsterTrickle monstTrick;
+    private AudioSource layerThemeForMirror;
 
 
     void Start()
@@ -19,6 +20,8 @@ public class teleport : MonoBehaviour
         charController = player.GetComponent<CharacterController>();
         playerScript = player.GetComponent<CharMove>();
         offsetSpawnNext = next.GetComponent<teleport>().offsetSpawn;
+
+        layerThemeForMirror = GetComponent<AudioSource>();
         //monstTrick = player.transform.GetChild(1).GetComponent<MonsterTrickle>();
         //Debug.Log("howdy");
         //charController.enabled = false;
@@ -41,6 +44,11 @@ public class teleport : MonoBehaviour
             playerScript.lastMirror = playerScript.thisMirror;
             playerScript.thisMirror = next;
             playerScript.ResetThismonster();
+
+            StartCoroutine(transition( playerScript.layerTheme,1,0));
+            
+            
+            
             //Destroy(col.gameObject);
             //player.transform.Translate(0, 1000, 0);
             //Destroy(player);
@@ -50,5 +58,26 @@ public class teleport : MonoBehaviour
         {
             col.gameObject.transform.position = next.transform.position + offsetSpawnNext;
         }
+    }
+
+     IEnumerator transition(AudioSource src, float dur, float trgtVol)
+    {
+        float currentTime = 0;
+        float start = src.volume;
+        Debug.Log(src.volume);
+        playerScript.layerTheme = layerThemeForMirror;
+        playerScript.layerTheme.Play();
+        while (currentTime < dur){
+            currentTime += Time.deltaTime;
+            src.volume = Mathf.Lerp(start, trgtVol, currentTime / dur);
+            playerScript.layerTheme.volume = Mathf.Lerp(trgtVol,start, currentTime / dur);
+            Debug.Log(src.volume);
+            yield return null;
+        }
+        src.Stop();
+        
+        yield break;
+        
+
     }
 }

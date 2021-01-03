@@ -19,6 +19,9 @@ public class CharMove : MonoBehaviour
     public bool isSeen;
     public float numReflection; //external mirror count
     public Vector3 offsetSpawn = new Vector3(1, 0, 0);
+    public AudioSource layerTheme;
+    public Animator anim;
+    public Vector3 move;
 
     public GameObject thisMirror; // start mirror
 
@@ -29,7 +32,7 @@ public class CharMove : MonoBehaviour
     void Start()
     {
         //controller = gameObject.GetComponent<CharacterController>();
-
+        playAudio();
     }
 
     // Update is called once per frame
@@ -65,16 +68,31 @@ public class CharMove : MonoBehaviour
         playerVelocity.y += gravityValue * Time.deltaTime;
 
         //Update one Vector3 of all movement with 3 vectors of x,y,z
-        Vector3 move = x * Vector3.right + z * Vector3.forward + playerVelocity;
+        move = x * Vector3.right + z * Vector3.forward + playerVelocity;
 
         //get directional vector
         move = transform.TransformDirection(move);
-
+        Debug.Log(move);
+        if (move.x != 0 && move.z != 0)
+        {
+            anim.Play("walk");
+            Debug.Log("walk");
+        }
+        else
+        {
+            anim.Play("idle");
+            Debug.Log("idle");
+        }
         //apply actual movement normalized by the change in time scaled to the inputted player speed
         controller.Move(move * Time.deltaTime * playerSpeed);
 
+        
 
+    }
 
+    public void playAudio()
+    {
+        layerTheme.Play();
     }
 
     public void ResetThismonster()
