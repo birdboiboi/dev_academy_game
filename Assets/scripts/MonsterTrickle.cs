@@ -6,6 +6,7 @@ public class MonsterTrickle : MonoBehaviour
 {
     private CharMove playerScript;
     private CharMove masterPlayerScript;
+    private CharacterController masterCharController;
 
     private Vector3[] dirs;
     public Vector3 dirUnitVector;
@@ -34,11 +35,11 @@ public class MonsterTrickle : MonoBehaviour
         
         startPos = transform.localPosition;
         masterPlayer = GameObject.FindGameObjectWithTag("Player");
-        offsetSpawn = masterPlayer.GetComponent<CharMove>().thisMirror.GetComponent<teleport>().offsetSpawn;
+        offsetSpawn = masterPlayer.GetComponent<CharMove>().lastMirror.GetComponent<teleport>().offsetSpawn;
 
         playerScript = player.GetComponent<CharMove>();
         masterPlayerScript = masterPlayer.GetComponent<CharMove>();
-
+        masterCharController = masterPlayer.GetComponent<CharacterController>();
 
     }
 
@@ -67,18 +68,22 @@ public class MonsterTrickle : MonoBehaviour
             transform.Translate(0, 0, movingRate * Time.deltaTime);
 
         }
-        else if((Mathf.Abs((player.transform.position - transform.position).magnitude) < killDist))//&& isDopple)
+        else if((Mathf.Abs((player.transform.position - transform.position).magnitude) < killDist))//&& !isDopple)
         {
             //code for monster capturing player
-            Debug.Log("captured " + masterPlayer.name + "teleport from"+ masterPlayerScript.thisMirror.name + "  to " + masterPlayerScript.lastMirror.name + "\n from "+ masterPlayerScript.thisMirror.transform.position + " to " + masterPlayerScript.lastMirror.transform.position + offsetSpawn);
+            Debug.Log("captured " + masterPlayer.name + "teleport from"+ masterPlayerScript.thisMirror.name + "  to " + masterPlayerScript.lastMirror.name + "\n from "+ masterPlayerScript.thisMirror.transform.position + " to " + masterPlayerScript.lastMirror.transform.position + offsetSpawn +"\nat " + masterPlayer.transform.position);
+            Debug.Log("player1st@" + masterPlayer.transform.position);
+            masterCharController.enabled = false;
             masterPlayer.transform.position = masterPlayerScript.lastMirror.transform.position + offsetSpawn ;
+            masterCharController.enabled = true;
             masterPlayerScript.ResetThismonster();
-            
+            Debug.Log("player2nd@"+masterPlayer.transform.position);
             reset();
-            offsetSpawn = masterPlayerScript.thisMirror.GetComponent<teleport>().offsetSpawn;
+            offsetSpawn = masterPlayerScript.lastMirror.GetComponent<teleport>().offsetSpawn;
 
             masterPlayerScript.thisMirror = masterPlayerScript.thisMirror.GetComponent<teleport>().prev;
             masterPlayerScript.lastMirror = masterPlayerScript.thisMirror.GetComponent<teleport>().prev;
+
         }
 
     }

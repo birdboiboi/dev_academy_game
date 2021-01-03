@@ -8,6 +8,7 @@ public class teleport : MonoBehaviour
     public GameObject prev;
     public GameObject player;
     public Vector3 offsetSpawn = new Vector3(0, 0, 0);
+    public Vector3 offsetSpawnNext;
     public CharacterController charController;
     private CharMove playerScript;
     private MonsterTrickle monstTrick;
@@ -17,6 +18,7 @@ public class teleport : MonoBehaviour
     {
         charController = player.GetComponent<CharacterController>();
         playerScript = player.GetComponent<CharMove>();
+        offsetSpawnNext = next.GetComponent<teleport>().offsetSpawn;
         //monstTrick = player.transform.GetChild(1).GetComponent<MonsterTrickle>();
         //Debug.Log("howdy");
         //charController.enabled = false;
@@ -33,7 +35,7 @@ public class teleport : MonoBehaviour
             // Instantiate(player, next.position, player.transform.rotation);
 
             charController.enabled = false;
-            player.transform.position = next.transform.position + offsetSpawn;
+            player.transform.position = next.transform.position + offsetSpawnNext;
             charController.enabled = true;
 
             playerScript.lastMirror = playerScript.thisMirror;
@@ -46,7 +48,7 @@ public class teleport : MonoBehaviour
         }
         else
         {
-            col.gameObject.transform.position = next.transform.position + offsetSpawn;
+            col.gameObject.transform.position = next.transform.position + offsetSpawnNext;
         }
     }
 }
