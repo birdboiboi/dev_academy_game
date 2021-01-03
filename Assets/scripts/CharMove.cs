@@ -22,6 +22,7 @@ public class CharMove : MonoBehaviour
     public AudioSource layerTheme;
     public Animator anim;
     public Vector3 move;
+    public AudioClip walk;
 
     public GameObject thisMirror; // start mirror
 
@@ -76,6 +77,7 @@ public class CharMove : MonoBehaviour
         if (move.x != 0 && move.z != 0)
         {
             anim.Play("walk");
+            layerTheme.PlayOneShot(walk);
            // Debug.Log("walk");
         }
         else

@@ -156,6 +156,7 @@ MonoBehaviour:
   layerTheme: {fileID: 5776696812024509611}
   anim: {fileID: 3665207182345948819}
   move: {x: 0, y: 0, z: 0}
+  walk: {fileID: 8300000, guid: 476e093513c17cd4cb8be88c9a68629c, type: 3}
   thisMirror: {fileID: 0}
   lastMirror: {fileID: 0}
 --- !u!143 &148575261036378621

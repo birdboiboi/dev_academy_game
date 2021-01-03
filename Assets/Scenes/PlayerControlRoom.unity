@@ -911,6 +911,7 @@ MonoBehaviour:
   offsetSpawnNext: {x: 0, y: 0, z: 0}
   charController: {fileID: 1083502038}
   layerThemeForMirror: {fileID: 546464028}
+  warp: {fileID: 8300000, guid: 3db202a566288fb4a8117bb5e476cabb, type: 3}
 --- !u!65 &546464027
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2164,6 +2165,7 @@ MonoBehaviour:
   offsetSpawnNext: {x: 0, y: 0, z: 0}
   charController: {fileID: 1083502038}
   layerThemeForMirror: {fileID: 1239714444}
+  warp: {fileID: 8300000, guid: 3db202a566288fb4a8117bb5e476cabb, type: 3}
 --- !u!65 &1239714443
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4146,6 +4148,7 @@ MonoBehaviour:
   offsetSpawnNext: {x: 0, y: 0, z: 0}
   charController: {fileID: 1083502038}
   layerThemeForMirror: {fileID: 2122702023}
+  warp: {fileID: 8300000, guid: 3db202a566288fb4a8117bb5e476cabb, type: 3}
 --- !u!65 &2122702022
 BoxCollider:
   m_ObjectHideFlags: 0

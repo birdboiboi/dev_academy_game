@@ -14,8 +14,8 @@ public class teleport : MonoBehaviour
     private MonsterTrickle monstTrick;
     public AudioSource layerThemeForMirror;
 
-    public AudioClip impact;
-    AudioSource audioSource;
+    public AudioClip warp;
+    
 
 
     void Start()
@@ -34,8 +34,11 @@ public class teleport : MonoBehaviour
     {
         
     Debug.Log(this.name);
+
+        layerThemeForMirror.PlayOneShot(warp);
         if (col.gameObject == player)
         {
+            
             Debug.Log(col.name + "trigger enter");
             //Debug.Log(col.gameObject.transform.position);
             //Debug.Log(next.position + Vector3.Scale(next.forward, offsetSpawn));
@@ -48,11 +51,11 @@ public class teleport : MonoBehaviour
             playerScript.lastMirror = playerScript.thisMirror;
             playerScript.thisMirror = next;
             playerScript.ResetThismonster();
-
+            
             StartCoroutine(transition( playerScript.layerTheme,1,0));
             
-            
-            
+
+
             //Destroy(col.gameObject);
             //player.transform.Translate(0, 1000, 0);
             //Destroy(player);
