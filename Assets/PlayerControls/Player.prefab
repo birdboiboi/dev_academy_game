@@ -155,6 +155,7 @@ MonoBehaviour:
   offsetSpawn: {x: 1, y: 0, z: 0}
   layerTheme: {fileID: 5776696812024509611}
   anim: {fileID: 3665207182345948819}
+  move: {x: 0, y: 0, z: 0}
   thisMirror: {fileID: 0}
   lastMirror: {fileID: 0}
 --- !u!143 &148575261036378621
@@ -281,8 +282,8 @@ GameObject:
   m_Component:
   - component: {fileID: 148575261226833633}
   - component: {fileID: 148575261226833638}
-  - component: {fileID: 148575261226833639}
   - component: {fileID: 4459342889597903191}
+  - component: {fileID: 1558579700511941889}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -347,14 +348,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &148575261226833639
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 148575261226833636}
-  m_Enabled: 1
 --- !u!114 &4459342889597903191
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -375,6 +368,14 @@ MonoBehaviour:
   rotateSpeed: 1
   sensitiveity: 100
   distHold: 1
+--- !u!81 &1558579700511941889
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 148575261226833636}
+  m_Enabled: 1
 --- !u!95 &3665207182345948819
 Animator:
   serializedVersion: 3

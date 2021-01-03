@@ -26,14 +26,14 @@ public class mirror : MonoBehaviour
     void Update()
     {
         Vector3 screenPoint = cam.WorldToViewportPoint(target.transform.position);
-        //Debug.Log(playerSeen());
+        
         onScreen = screenPoint.z > 0 && screenPoint.x > 0 && screenPoint.x < 1 && screenPoint.y > 0 && screenPoint.y < 1 && playerSeen();
-
+        //Debug.Log(playerSeen() +"overall" + onScreen);
         if (onScreen)
         {
-
+            Debug.Log(playerSeen() + "overall" + onScreen);
             Vector3 distFromCamera = transform.position - target.transform.position;
-            //Debug.Log(distFromCamera + "<-cam dist" + transform.position +"<-camPos,traget->"+ target.transform.position);
+            Debug.Log(this.transform.parent.name);
             if (onScreen != oldOnScreen)
             {
                 targetScript.numReflection++;
@@ -44,6 +44,7 @@ public class mirror : MonoBehaviour
                 doppleganger.transform.GetChild(1).GetComponent<Camera>().enabled = false;
                 doppleganger.transform.GetChild(1).GetComponent<CameraHandle>().enabled = false;
                 oldOnScreen = onScreen;
+                doppleganger.transform.GetChild(1).GetComponent<AudioListener>().enabled = false;
                 doppleganger.name = "doppleGanger";
                 doppleganger.transform.GetChild(2).GetComponent<MonsterTrickle>().player = doppleganger;
                 doppleganger.transform.GetChild(2).GetComponent<MonsterTrickle>().isDopple = true;
@@ -126,7 +127,7 @@ public class mirror : MonoBehaviour
     {
 
         Vector3 dirVect = -Vector3.Normalize(transform.position - target.transform.position);
-        Debug.DrawRay(transform.position, dirVect * 100, Color.yellow);
+        
 
         RaycastHit hit;
         Ray distWall = new Ray(transform.position, dirVect);
@@ -134,11 +135,10 @@ public class mirror : MonoBehaviour
         {
             distanceToWall = hit.distance;
             Debug.DrawRay(cam.WorldToViewportPoint(target.transform.position), dirVect * hit.distance, Color.yellow);
-            //Debug.Log(hit.collider.gameObject.name + distanceToWall);
-            if (hit.collider.gameObject == target)
-            {
-                return true;
-            }
+            Debug.Log(hit.collider.gameObject.name + distanceToWall);
+            Debug.DrawRay(transform.position, dirVect * distanceToWall, Color.yellow);
+            return (hit.collider.gameObject == target);
+            
         }
         //Debug.Log("none");
         return false;

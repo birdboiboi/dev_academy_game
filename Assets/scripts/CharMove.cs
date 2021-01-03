@@ -72,16 +72,16 @@ public class CharMove : MonoBehaviour
 
         //get directional vector
         move = transform.TransformDirection(move);
-        Debug.Log(move);
+        //Debug.Log(move);
         if (move.x != 0 && move.z != 0)
         {
             anim.Play("walk");
-            Debug.Log("walk");
+           // Debug.Log("walk");
         }
         else
         {
             anim.Play("idle");
-            Debug.Log("idle");
+           // Debug.Log("idle");
         }
         //apply actual movement normalized by the change in time scaled to the inputted player speed
         controller.Move(move * Time.deltaTime * playerSpeed);

@@ -34,6 +34,8 @@ public class MonsterTrickle : MonoBehaviour
     {
         //pre write vectors of (0,1,0), (0,-1,0),(1,0,0),(-1,0,0) all orthognal to directional vector 
         dirs = new[] { transform.up, -transform.up, transform.right, -transform.right };
+
+
         
         startPos = transform.localPosition;
         masterPlayer = GameObject.FindGameObjectWithTag("Player");
@@ -86,6 +88,11 @@ public class MonsterTrickle : MonoBehaviour
             Debug.Log(offsetSpawn);
             masterPlayerScript.thisMirror = masterPlayerScript.thisMirror.GetComponent<teleport>().prev;
             masterPlayerScript.lastMirror = masterPlayerScript.thisMirror.GetComponent<teleport>().prev;
+
+           
+
+            StartCoroutine(transition(masterPlayerScript.layerTheme, 1, 0));
+
 
         }
 
@@ -143,4 +150,33 @@ public class MonsterTrickle : MonoBehaviour
         
         return endPos; // output the closest surface to place the monster
     }
+
+    IEnumerator transition(AudioSource src, float dur, float trgtVol)
+    {
+        float currentTime = 0;
+        float start = src.volume;
+        Debug.Log(src.volume);
+        masterPlayerScript.layerTheme = masterPlayerScript.thisMirror.GetComponent<teleport>().layerThemeForMirror;
+        Debug.Log("masterPlayerScript.thisMirror.name"+masterPlayerScript.thisMirror.name);
+
+
+        masterPlayerScript.layerTheme.Play();
+        
+        while (currentTime < dur)
+        {
+            currentTime += Time.deltaTime;
+            src.volume = Mathf.Lerp(start, trgtVol, currentTime / dur);
+            masterPlayerScript.layerTheme.volume = Mathf.Lerp(trgtVol, start, currentTime / dur);
+            masterPlayerScript.layerTheme.pitch =1* Mathf.Sin(currentTime);
+            Debug.Log(src.volume);
+            yield return null;
+        }
+        src.Stop();
+        masterPlayerScript.layerTheme.pitch = 1;
+        masterPlayerScript.layerTheme.volume = start;
+        yield break;
+
+
+    }
+
 }

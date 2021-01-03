@@ -12,7 +12,10 @@ public class teleport : MonoBehaviour
     public CharacterController charController;
     private CharMove playerScript;
     private MonsterTrickle monstTrick;
-    private AudioSource layerThemeForMirror;
+    public AudioSource layerThemeForMirror;
+
+    public AudioClip impact;
+    AudioSource audioSource;
 
 
     void Start()
@@ -29,7 +32,8 @@ public class teleport : MonoBehaviour
 
     void OnTriggerEnter(Collider col)
     {
-        Debug.Log(this.name);
+        
+    Debug.Log(this.name);
         if (col.gameObject == player)
         {
             Debug.Log(col.name + "trigger enter");
