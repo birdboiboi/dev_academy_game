@@ -833,6 +833,7 @@ MonoBehaviour:
   prev: {fileID: 2122702019}
   player: {fileID: 192027751}
   offsetSpawn: {x: 0, y: 0, z: 2}
+  offsetSpawnNext: {x: 0, y: 0, z: 0}
   charController: {fileID: 192027753}
 --- !u!65 &546464027
 BoxCollider:
@@ -2203,7 +2204,8 @@ MonoBehaviour:
   next: {fileID: 2122702019}
   prev: {fileID: 546464024}
   player: {fileID: 192027751}
-  offsetSpawn: {x: 0, y: 0, z: -2}
+  offsetSpawn: {x: 0, y: 0, z: 2}
+  offsetSpawnNext: {x: 0, y: 0, z: 0}
   charController: {fileID: 192027753}
 --- !u!65 &1239714443
 BoxCollider:
@@ -3962,7 +3964,8 @@ MonoBehaviour:
   next: {fileID: 546464024}
   prev: {fileID: 1239714440}
   player: {fileID: 192027751}
-  offsetSpawn: {x: 0, y: 0, z: 2}
+  offsetSpawn: {x: 0, y: 0, z: -2}
+  offsetSpawnNext: {x: 0, y: 0, z: 0}
   charController: {fileID: 192027753}
 --- !u!65 &2122702022
 BoxCollider:

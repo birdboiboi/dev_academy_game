@@ -80,7 +80,7 @@ public class MonsterTrickle : MonoBehaviour
             Debug.Log("player2nd@"+masterPlayer.transform.position);
             reset();
             offsetSpawn = masterPlayerScript.lastMirror.GetComponent<teleport>().offsetSpawn;
-
+            Debug.Log(offsetSpawn);
             masterPlayerScript.thisMirror = masterPlayerScript.thisMirror.GetComponent<teleport>().prev;
             masterPlayerScript.lastMirror = masterPlayerScript.thisMirror.GetComponent<teleport>().prev;
 
