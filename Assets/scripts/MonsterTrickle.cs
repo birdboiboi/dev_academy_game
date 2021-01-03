@@ -5,6 +5,8 @@ using UnityEngine;
 public class MonsterTrickle : MonoBehaviour
 {
     private CharMove playerScript;
+    private CharMove masterPlayerScript;
+
     private Vector3[] dirs;
     public Vector3 dirUnitVector;
 
@@ -20,7 +22,7 @@ public class MonsterTrickle : MonoBehaviour
     public float killDist = 9;
     public GameObject masterPlayer;
     public bool isDopple = false;
-    public Vector3 offsetSpawn = new Vector3(1, 0, 0);
+    public Vector3 offsetSpawn ;// new Vector3(1, 0, 0);
 
 
     private Vector3 startPos;
@@ -29,9 +31,13 @@ public class MonsterTrickle : MonoBehaviour
     {
         //pre write vectors of (0,1,0), (0,-1,0),(1,0,0),(-1,0,0) all orthognal to directional vector 
         dirs = new[] { transform.up, -transform.up, transform.right, -transform.right };
-        playerScript = player.GetComponent<CharMove>();
+        
         startPos = transform.localPosition;
-        //masterPlayer = Find("/player");
+        masterPlayer = GameObject.FindGameObjectWithTag("Player");
+        offsetSpawn = masterPlayer.GetComponent<CharMove>().thisMirror.GetComponent<teleport>().offsetSpawn;
+
+        playerScript = player.GetComponent<CharMove>();
+        masterPlayerScript = masterPlayer.GetComponent<CharMove>();
 
 
     }
@@ -64,16 +70,22 @@ public class MonsterTrickle : MonoBehaviour
         else if((Mathf.Abs((player.transform.position - transform.position).magnitude) < killDist))//&& isDopple)
         {
             //code for monster capturing player
-            Debug.Log("capture");
-            player.transform.position = playerScript.lastMirror.transform.position + offsetSpawn; ;
-            masterPlayer.GetComponent<CharMove>().ResetThismonster();
+            Debug.Log("captured " + masterPlayer.name + "teleport from"+ masterPlayerScript.thisMirror.name + "  to " + masterPlayerScript.lastMirror.name + "\n from "+ masterPlayerScript.thisMirror.transform.position + " to " + masterPlayerScript.lastMirror.transform.position + offsetSpawn);
+            masterPlayer.transform.position = masterPlayerScript.lastMirror.transform.position + offsetSpawn ;
+            masterPlayerScript.ResetThismonster();
+            
             reset();
+            offsetSpawn = masterPlayerScript.thisMirror.GetComponent<teleport>().offsetSpawn;
+
+            masterPlayerScript.thisMirror = masterPlayerScript.thisMirror.GetComponent<teleport>().prev;
+            masterPlayerScript.lastMirror = masterPlayerScript.thisMirror.GetComponent<teleport>().prev;
         }
-       
+
     }
     public void reset()
     {
         transform.localPosition = startPos;
+        Debug.Log("reset dopple" + transform.parent.name);
         //transform.position = -player.transform.forward * startingDist;
     }
 

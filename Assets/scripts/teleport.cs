@@ -10,12 +10,14 @@ public class teleport : MonoBehaviour
     public Vector3 offsetSpawn = new Vector3(0, 0, 0);
     public CharacterController charController;
     private CharMove playerScript;
+    private MonsterTrickle monstTrick;
 
 
     void Start()
     {
         charController = player.GetComponent<CharacterController>();
         playerScript = player.GetComponent<CharMove>();
+        //monstTrick = player.transform.GetChild(1).GetComponent<MonsterTrickle>();
         //Debug.Log("howdy");
         //charController.enabled = false;
     }
@@ -36,7 +38,7 @@ public class teleport : MonoBehaviour
 
             playerScript.lastMirror = playerScript.thisMirror;
             playerScript.thisMirror = next;
-
+            playerScript.ResetThismonster();
             //Destroy(col.gameObject);
             //player.transform.Translate(0, 1000, 0);
             //Destroy(player);
