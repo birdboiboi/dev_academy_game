@@ -28,6 +28,9 @@ public class CharMove : MonoBehaviour
 
     public GameObject lastMirror;
 
+   private bool isWalk= false;
+   public float nextTime = 0;
+   public float timeOffset = 10;
 
     // Start is called before the first frame update
     void Start()
@@ -74,15 +77,25 @@ public class CharMove : MonoBehaviour
         //get directional vector
         move = transform.TransformDirection(move);
         //Debug.Log(move);
-        if (move.x != 0 && move.z != 0)
+
+
+        float currTime = Time.time;
+
+        if (move.x != 0 && move.z != 0 )
         {
-            anim.Play("walk");
-            layerTheme.PlayOneShot(walk);
+            
+            if (nextTime < currTime)
+            {
+                anim.Play("walk");
+                layerTheme.PlayOneShot(walk);
+                nextTime = currTime + timeOffset;
+            }
            // Debug.Log("walk");
         }
-        else
+        else 
         {
             anim.Play("idle");
+            nextTime = 0;
            // Debug.Log("idle");
         }
         //apply actual movement normalized by the change in time scaled to the inputted player speed

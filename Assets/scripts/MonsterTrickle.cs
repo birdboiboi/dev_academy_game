@@ -39,11 +39,12 @@ public class MonsterTrickle : MonoBehaviour
         
         startPos = transform.localPosition;
         masterPlayer = GameObject.FindGameObjectWithTag("Player");
-        offsetSpawn = masterPlayer.GetComponent<CharMove>().lastMirror.GetComponent<teleport>().offsetSpawn;
+        
 
         playerScript = player.GetComponent<CharMove>();
         masterPlayerScript = masterPlayer.GetComponent<CharMove>();
         masterCharController = masterPlayer.GetComponent<CharacterController>();
+        offsetSpawn = masterPlayerScript.lastMirror.GetComponent<teleport>().offsetSpawn;
         //anim = transform.GetChild(3).GetComponent<Animator>();
 
     }
