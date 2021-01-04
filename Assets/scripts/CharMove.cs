@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class CharMove : MonoBehaviour
 {
@@ -31,6 +33,8 @@ public class CharMove : MonoBehaviour
    private bool isWalk= false;
    public float nextTime = 0;
    public float timeOffset = 10;
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -101,7 +105,12 @@ public class CharMove : MonoBehaviour
         //apply actual movement normalized by the change in time scaled to the inputted player speed
         controller.Move(move * Time.deltaTime * playerSpeed);
 
-        
+        if (Input.GetKey(KeyCode.Escape))
+        {
+            Cursor.lockState = CursorLockMode.Confined;
+            SceneManager.LoadScene("main_menu");
+            Debug.Log("close");
+        }
 
     }
 
