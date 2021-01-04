@@ -10,13 +10,15 @@ public class doorAnimation : MonoBehaviour
 
     void OnTriggerEnter(Collider collider)
     {
-        _animator.SetBool("isopen", true);
+        doortoggle = true;
+        _animator.SetBool("isopen", doortoggle);
         Debug.Log("OpenDoor");
     }
 
     void OnTriggerExit(Collider collider)
     {
-        _animator.SetBool("isopen", false);
+        doortoggle = false;
+        _animator.SetBool("isopen", doortoggle);
         Debug.Log("CloseDoor");
     }
     }

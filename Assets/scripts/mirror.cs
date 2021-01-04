@@ -13,7 +13,7 @@ public class mirror : MonoBehaviour
     private GameObject doppleganger;
     private CharMove targetScript;
     private float distanceToWall;
-
+    public bool overideCheck = false;
 
     // Start is called before the first frame update
     void Start()
@@ -27,7 +27,7 @@ public class mirror : MonoBehaviour
     {
         Vector3 screenPoint = cam.WorldToViewportPoint(target.transform.position);
         
-        onScreen = screenPoint.z > 0 && screenPoint.x > 0 && screenPoint.x < 1 && screenPoint.y > 0 && screenPoint.y < 1 && playerSeen();
+        onScreen = screenPoint.z > 0 && screenPoint.x > 0 && screenPoint.x < 1 && screenPoint.y > 0 && screenPoint.y < 1 && (overideCheck || playerSeen());
         //Debug.Log(playerSeen() +"overall" + onScreen);
         if (onScreen)
         {
@@ -51,7 +51,7 @@ public class mirror : MonoBehaviour
 
             }
             //Debug.Log(mirror2.rotation.eulerAngles);
-            Quaternion yzSwitch = Quaternion.Euler(0, mirror2.rotation.eulerAngles.y, 0);
+            Quaternion yzSwitch = Quaternion.Euler(0, mirror2.rotation.eulerAngles.y- transform.rotation.eulerAngles.y, 0);
             //.Debug.Log(yzSwitch.eulerAngles);
             if (!switchStartingDirection)
             {
@@ -62,12 +62,13 @@ public class mirror : MonoBehaviour
             {
 
                 distFromCamera.x = -distFromCamera.x;
-                //distFromCamera.y = -distFromCamera.y;
 
             }
+            distFromCamera.y = distFromCamera.y - Mathf.Abs(mirror2.transform.position.y - transform.position.y);
 
-            doppleganger.transform.position = Vector3.Scale(mirror2.transform.position + transformRotation(yzSwitch, distFromCamera), new Vector3(1, 1, 1));// + new Vector3(1, target.transform.position.y, 1);
+            doppleganger.transform.position = Vector3.Scale(mirror2.transform.position  + transformRotation(yzSwitch, distFromCamera) , new Vector3(1, 1, 1));// + new Vector3(1, target.transform.position.y, 1);
             doppleganger.transform.LookAt(mirror2);
+           // doppleganger.transform.position = new Vector3(1, Mathf.Abs(target.transform.position.y - mirror2.transform.position.y), 1);//mirror2.transform.lossyScale.y / 2
             // Debug.Log("traget" + target.transform.GetChild(1).transform.childCount);
             //Debug.Log("Player" + doppleganger.transform.GetChild(1).transform.childCount);
             //if target camera does not have item AND  doppleganger camera  has item
@@ -131,6 +132,7 @@ public class mirror : MonoBehaviour
 
         RaycastHit hit;
         Ray distWall = new Ray(transform.position, dirVect);
+        Debug.DrawRay(cam.WorldToViewportPoint(target.transform.position), dirVect * 100, Color.yellow);
         if (Physics.Raycast(distWall, out hit))
         {
             distanceToWall = hit.distance;

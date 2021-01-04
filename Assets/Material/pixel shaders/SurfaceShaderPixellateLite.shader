@@ -8,7 +8,7 @@
 			_Metallic("Metallic", Range(0,1)) = 0.0
 			_Columns("Pixel Columns", Float) = 64
 			_Rows("Pixel Rows", Float) = 64
-			_BrightVal("Brightness Value",Float) = 10
+			_BrightVal("Brightness Value",Float) = 1.3
 		}
 			SubShader
 			{
@@ -55,7 +55,7 @@
 					uv.y = round(uv.y);
 					uv.x /= _Columns;
 					uv.y /= _Rows;
-					fixed4 c = tex2D(_MainTex, IN.uv_MainTex) * _Color ;
+					fixed4 c = tex2D(_MainTex, IN.uv_MainTex)  ;
 					o.Albedo = c.rgb * _BrightVal;
 
 					// Metallic and smoothness come from slider variables

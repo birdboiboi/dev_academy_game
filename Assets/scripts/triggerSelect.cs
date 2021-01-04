@@ -23,6 +23,7 @@ public class triggerSelect : MonoBehaviour
         if (col.gameObject == key)
         {
             isTriggered = true;
+            Destroy(key);
         }
         else
         {
