@@ -8,6 +8,7 @@ public class MonsterTrickle : MonoBehaviour
     private CharMove masterPlayerScript;
     private CharacterController masterCharController;
 
+
     private Vector3[] dirs;
     public Vector3 dirUnitVector;
 
@@ -16,6 +17,10 @@ public class MonsterTrickle : MonoBehaviour
     public GameObject player;
     public Camera playerCamera;
     public Animator anim;
+    public Animator monsterAnim;
+
+    public AudioSource monsterVoice;
+    public AudioClip[] voices;
 
 
 
@@ -35,8 +40,8 @@ public class MonsterTrickle : MonoBehaviour
         //pre write vectors of (0,1,0), (0,-1,0),(1,0,0),(-1,0,0) all orthognal to directional vector 
         dirs = new[] { transform.up, -transform.up, transform.right, -transform.right };
 
+        monsterVoice.clip = voices[0];
 
-        
         startPos = transform.localPosition;
         masterPlayer = GameObject.FindGameObjectWithTag("Player");
         
@@ -77,26 +82,33 @@ public class MonsterTrickle : MonoBehaviour
         else if((Mathf.Abs((player.transform.position - transform.position).magnitude) < killDist))//&& !isDopple)
         {
             //code for monster capturing player
-            Debug.Log("captured " + masterPlayer.name + "teleport from"+ masterPlayerScript.thisMirror.name + "  to " + masterPlayerScript.lastMirror.name + "\n from "+ masterPlayerScript.thisMirror.transform.position + " to " + masterPlayerScript.lastMirror.transform.position + offsetSpawn +"\nat " + masterPlayer.transform.position);
-            Debug.Log("player1st@" + masterPlayer.transform.position);
+           // Debug.Log("captured " + masterPlayer.name + "teleport from"+ masterPlayerScript.thisMirror.name + "  to " + masterPlayerScript.lastMirror.name + "\n from "+ masterPlayerScript.thisMirror.transform.position + " to " + masterPlayerScript.lastMirror.transform.position + offsetSpawn +"\nat " + masterPlayer.transform.position);
+            //Debug.Log("player1st@" + masterPlayer.transform.position);
             masterCharController.enabled = false;
             masterPlayer.transform.position = masterPlayerScript.lastMirror.transform.position + offsetSpawn ;
             masterCharController.enabled = true;
             masterPlayerScript.ResetThismonster();
-            Debug.Log("player2nd@"+masterPlayer.transform.position);
+            //Debug.Log("player2nd@"+masterPlayer.transform.position);
             reset();
             offsetSpawn = masterPlayerScript.lastMirror.GetComponent<teleport>().offsetSpawn;
             Debug.Log(offsetSpawn);
             masterPlayerScript.thisMirror = masterPlayerScript.thisMirror.GetComponent<teleport>().prev;
             masterPlayerScript.lastMirror = masterPlayerScript.thisMirror.GetComponent<teleport>().prev;
 
-           
+            monsterAnim.Play("notice");
 
             StartCoroutine(transition(masterPlayerScript.layerTheme, 1, 0));
 
 
         }
 
+        if ((Mathf.Abs((player.transform.position - transform.position).magnitude) < killDist +.5f ))
+        {
+            monsterVoice.Play();
+            
+           // monsterVoice.clip = voices[Random.Range(0, voices.Length - 1)];
+            
+        }
         if (masterPlayerScript.move.x != 0 && masterPlayerScript.move.z != 0)
         {
             anim.Play("walk");
