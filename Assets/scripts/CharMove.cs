@@ -107,8 +107,8 @@ public class CharMove : MonoBehaviour
 
         if (Input.GetKey(KeyCode.Escape))
         {
-            Cursor.lockState = CursorLockMode.Confined;
-            SceneManager.LoadScene("main_menu");
+           // Cursor.lockState = CursorLockMode.Confined;
+            //SceneManager.LoadScene("main_menu");
             Debug.Log("close");
         }
 

@@ -6,6 +6,7 @@ public class triggerSelect : MonoBehaviour
 {
     public bool isTriggered = false;
     public GameObject key;
+    public Shader shad;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,6 +23,7 @@ public class triggerSelect : MonoBehaviour
     {
         if (col.gameObject == key)
         {
+            GetComponent<Renderer>().material.SetColor("_EMISSION", new Color(0.0927F, 0.4852F, 0.2416F, 0.42F));
             isTriggered = true;
             Destroy(key);
         }

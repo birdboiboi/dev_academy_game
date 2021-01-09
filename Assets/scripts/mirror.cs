@@ -15,6 +15,8 @@ public class mirror : MonoBehaviour
     private float distanceToWall;
     public bool overideCheck = false;
 
+    public float distCheck = 10;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -26,10 +28,12 @@ public class mirror : MonoBehaviour
     void Update()
     {
         Vector3 screenPoint = cam.WorldToViewportPoint(target.transform.position);
+        //overideCheck = (transform.position - target.transform.position).magnitude < distCheck;
         
-        onScreen = screenPoint.z > 0 && screenPoint.x > 0 && screenPoint.x < 1 && screenPoint.y > 0 && screenPoint.y < 1 && (overideCheck || playerSeen());
+        onScreen = (screenPoint.z > 0 && screenPoint.x > 0 && screenPoint.x < 1 && screenPoint.y > 0 && screenPoint.y < 1 && playerSeen());// || ( overideCheck)
+
         //Debug.Log(playerSeen() +"overall" + onScreen);
-        if (onScreen)
+        if ( onScreen ) 
         {
             Debug.Log(playerSeen() + "overall" + onScreen);
             Vector3 distFromCamera = transform.position - target.transform.position;
@@ -126,10 +130,10 @@ public class mirror : MonoBehaviour
 
     bool playerSeen()
     {
-
+        bool isSeenBool = false;
         Vector3 dirVect = -Vector3.Normalize(transform.position - target.transform.position);
-        
 
+        Debug.Log(this.name + "(overideCheck && distanceToWall < distCheck)" + (Mathf.Abs((transform.position - target.transform.position).magnitude)));
         RaycastHit hit;
         Ray distWall = new Ray(transform.position, dirVect);
         Debug.DrawRay(cam.WorldToViewportPoint(target.transform.position), dirVect * 100, Color.yellow);
@@ -139,13 +143,15 @@ public class mirror : MonoBehaviour
             Debug.DrawRay(cam.WorldToViewportPoint(target.transform.position), dirVect * hit.distance, Color.yellow);
             Debug.Log(hit.collider.gameObject.name + distanceToWall);
             Debug.DrawRay(transform.position, dirVect * distanceToWall, Color.yellow);
-            return (hit.collider.gameObject == target);
-            
-        }
-        //Debug.Log("none");
-        return false;
 
-        // Debug.Log(this.name + distanceToWall);
+            isSeenBool = (hit.collider.gameObject == target);
+
+
+        }        //Debug.Log("none");
+        Debug.Log(this.name + (false || (overideCheck && true)));
+        return (isSeenBool || (overideCheck && distanceToWall < distCheck));
+
+        // Debug.Log(this.name + distanceToWall); Mathf.Abs((transform.position - target.transform.position).magnitude)< distCheck
 
     }
 }

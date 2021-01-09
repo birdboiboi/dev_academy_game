@@ -46,6 +46,7 @@ public class teleport : MonoBehaviour
 
             charController.enabled = false;
             player.transform.position = next.transform.position + offsetSpawnNext;
+            player.transform.rotation = transform.rotation;
             charController.enabled = true;
 
             playerScript.lastMirror = playerScript.thisMirror;
