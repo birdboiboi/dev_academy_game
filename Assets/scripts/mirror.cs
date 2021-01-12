@@ -40,6 +40,7 @@ public class mirror : MonoBehaviour
             Debug.Log(this.transform.parent.name);
             if (onScreen != oldOnScreen)
             {
+                // a ton of stuff to set up the dopple ganger ask Jordan for clarification.... watch for hierachy incase this gets an error
                 targetScript.numReflection++;
 
                 doppleganger = Instantiate(target, mirror2.localPosition + distFromCamera, transform.rotation);
@@ -75,6 +76,7 @@ public class mirror : MonoBehaviour
            // doppleganger.transform.position = new Vector3(1, Mathf.Abs(target.transform.position.y - mirror2.transform.position.y), 1);//mirror2.transform.lossyScale.y / 2
             // Debug.Log("traget" + target.transform.GetChild(1).transform.childCount);
             //Debug.Log("Player" + doppleganger.transform.GetChild(1).transform.childCount);
+
             //if target camera does not have item AND  doppleganger camera  has item
             if (target.transform.GetChild(1).transform.childCount <= 0 && doppleganger.transform.GetChild(1).transform.childCount > 0)// && target.transform.GetChild(1).transform.childCount <= 0 )
             {
@@ -98,11 +100,16 @@ public class mirror : MonoBehaviour
         }
         else
         {
+
+            //only update the status of the player to have one less mirror see the player on the first time that the player is out of view
             if (oldOnScreen != onScreen)
             {
                 targetScript.numReflection -= 1;
                 oldOnScreen = onScreen;
+                //clears doppleganger
                 Destroy(doppleganger);
+                //reset the monster's position on exiting the mirrors view
+                targetScript.ResetThismonster();
             }
 
         }
@@ -121,33 +128,45 @@ public class mirror : MonoBehaviour
         }
         */
 
-
+    //linear agerbra over here!!! applys rotational matrix
     Vector3 transformRotation(Quaternion rotation, Vector3 coordinates)
     {
         Matrix4x4 m = Matrix4x4.Rotate(rotation);
         return m.MultiplyPoint3x4(coordinates);
     }
 
+    //cast a ray towards the player, ifthere is a wall in the way the player is considered not seen
     bool playerSeen()
     {
+        //may be redundant...or may break the camera checking for human script
         bool isSeenBool = false;
+
+        //get the directional vector of the player's location vs this mirror's
         Vector3 dirVect = -Vector3.Normalize(transform.position - target.transform.position);
 
         Debug.Log(this.name + "(overideCheck && distanceToWall < distCheck)" + (Mathf.Abs((transform.position - target.transform.position).magnitude)));
         RaycastHit hit;
+
+        //create a ray cast object from this point and propogate till infinity checking for intersection
         Ray distWall = new Ray(transform.position, dirVect);
         Debug.DrawRay(cam.WorldToViewportPoint(target.transform.position), dirVect * 100, Color.yellow);
         if (Physics.Raycast(distWall, out hit))
         {
-            distanceToWall = hit.distance;
-            Debug.DrawRay(cam.WorldToViewportPoint(target.transform.position), dirVect * hit.distance, Color.yellow);
-            Debug.Log(hit.collider.gameObject.name + distanceToWall);
-            Debug.DrawRay(transform.position, dirVect * distanceToWall, Color.yellow);
 
+            
+            distanceToWall = hit.distance;
+            //Debug.DrawRay(cam.WorldToViewportPoint(target.transform.position), dirVect * hit.distance, Color.yellow);
+            //Debug.Log(hit.collider.gameObject.name + distanceToWall);
+            //Debug.DrawRay(transform.position, dirVect * distanceToWall, Color.yellow);
+
+
+            //did the player hit the target?
             isSeenBool = (hit.collider.gameObject == target);
 
 
         }        //Debug.Log("none");
+
+        //some stuff about overide...I think I fixed this by changing how far the camera can look
         Debug.Log(this.name + (false || (overideCheck && true)));
         return (isSeenBool || (overideCheck && distanceToWall < distCheck));
 

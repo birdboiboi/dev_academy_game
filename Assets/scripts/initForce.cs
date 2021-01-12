@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class initForce : MonoBehaviour
 {
-    // Start is called before the first frame update
+   
     public Rigidbody rg;
+
+    //COOL RANDOM MOVEMENT SCRIPT TO SIMULATE INITIAL EXPLOSION added to rom b floaty objects
     void Start()
     {
         Debug.Log(rg.velocity);
@@ -14,9 +16,5 @@ public class initForce : MonoBehaviour
        // rg.AddForce(1, 1, 1, ForceMode.Impulse);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
 }

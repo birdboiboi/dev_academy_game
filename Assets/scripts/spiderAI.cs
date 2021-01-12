@@ -21,6 +21,11 @@ public class spiderAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        //this script is not too intelegent
+        //look at the player
+        //if there is nothing in front of the player move...thats it
+
         transform.LookAt(new Vector3(target.transform.position.x,transform.position.y, target.transform.position.z));
         if (playerSeen())
         {
@@ -28,6 +33,7 @@ public class spiderAI : MonoBehaviour
         }
     }
 
+    //see mirror scripts
     bool playerSeen()
     {
 

@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class teleport : MonoBehaviour
 {
+    //doubly linked list node structure
     public GameObject next;
     public GameObject prev;
+
+    //data
     public GameObject player;
     public Vector3 offsetSpawn = new Vector3(0, 0, 0);
     public Vector3 offsetSpawnNext;
@@ -30,6 +33,7 @@ public class teleport : MonoBehaviour
         //charController.enabled = false;
     }
 
+    //when player enters
     void OnTriggerEnter(Collider col)
     {
         
@@ -44,15 +48,18 @@ public class teleport : MonoBehaviour
             //Debug.Log(next.position + Vector3.Scale(next.forward, offsetSpawn));
             // Instantiate(player, next.position, player.transform.rotation);
 
-            charController.enabled = false;
-            player.transform.position = next.transform.position + offsetSpawnNext;
-            player.transform.rotation = transform.rotation;
+            charController.enabled = false;//**************************************IMPORTANT****************
+            player.transform.position = next.transform.position + offsetSpawnNext; //the charachor controller script MUST BE DISABLED!!!!!!
+            player.transform.rotation = transform.rotation;//**************************************IMPORTANT****************
             charController.enabled = true;
 
+            //reset player's understranding of its location....can be revised into the future for the player to figure out itspotention teleport on capture postion based on this last mirror
             playerScript.lastMirror = playerScript.thisMirror;
             playerScript.thisMirror = next;
             playerScript.ResetThismonster();
             
+
+            //@BJ this changes music to the next one
             StartCoroutine(transition( playerScript.layerTheme,1,0));
             
 
@@ -64,6 +71,7 @@ public class teleport : MonoBehaviour
         }
         else
         {
+            //teleport any object 
             col.gameObject.transform.position = next.transform.position + offsetSpawnNext;
         }
     }

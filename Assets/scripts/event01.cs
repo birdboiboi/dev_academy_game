@@ -10,20 +10,21 @@ public class event01 : MonoBehaviour
     //private Renderer rend;
     public float exampleVal=1;
     // Start is called before the first frame update
-    void Start()
-    {
-        //rend = 
-    }
+   
     
     // Update is called once per frame
     void Update()
     {
+
+        //this is an example of refrencing the triggerSelect Script @SYDNEY TAKE A LOOK AT THIS!!!!
         if (trigger.isTriggered == true)
         {
+            //move this object up and down
             transform.position = new Vector3(0, Mathf.Sin(Time.time)* exampleVal, 0)  + transform.position;
         }
         else
         {
+            //??? forgot why I didnt just leave it as  transform.position = transform.position
             transform.position =new Vector3(0, 0, 0)+ transform.position;
         }
     }

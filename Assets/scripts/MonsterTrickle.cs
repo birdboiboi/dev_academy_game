@@ -40,17 +40,22 @@ public class MonsterTrickle : MonoBehaviour
         //pre write vectors of (0,1,0), (0,-1,0),(1,0,0),(-1,0,0) all orthognal to directional vector 
         dirs = new[] { transform.up, -transform.up, transform.right, -transform.right };
 
+        //external voice clip of the monster, multiple can be added
         monsterVoice.clip = voices[0];
 
+        //gets the monsters current position and saves it as a start point, the monster will reset to this
         startPos = transform.localPosition;
+
+        
         masterPlayer = GameObject.FindGameObjectWithTag("Player");
         
-
+        //may need to remove this variable due to redundancy of masterPlayerScript but it still works so to avoid unneccasry work this variable will stay
         playerScript = player.GetComponent<CharMove>();
         masterPlayerScript = masterPlayer.GetComponent<CharMove>();
         masterCharController = masterPlayer.GetComponent<CharacterController>();
+
+        //for spawning on a mirror when captured to avoid the being teleported. tthe player will spawn a distance away from the teleporter instead of disabling the teleporter
         offsetSpawn = masterPlayerScript.lastMirror.GetComponent<teleport>().offsetSpawn;
-        //anim = transform.GetChild(3).GetComponent<Animator>();
 
     }
 
@@ -87,16 +92,23 @@ public class MonsterTrickle : MonoBehaviour
             masterCharController.enabled = false;
             masterPlayer.transform.position = masterPlayerScript.lastMirror.transform.position + offsetSpawn ;
             masterCharController.enabled = true;
+
+            //reset the position of this monster(doppleganger or player's) and the makes sure the player will reset theirs
             masterPlayerScript.ResetThismonster();
-            //Debug.Log("player2nd@"+masterPlayer.transform.position);
             reset();
+
+            //update spawn position with respect to the new teleport destination from being captured
             offsetSpawn = masterPlayerScript.lastMirror.GetComponent<teleport>().offsetSpawn;
-            Debug.Log(offsetSpawn);
+            
+
+            //update player's known position within the node list to figure out position
             masterPlayerScript.thisMirror = masterPlayerScript.thisMirror.GetComponent<teleport>().prev;
             masterPlayerScript.lastMirror = masterPlayerScript.thisMirror.GetComponent<teleport>().prev;
 
+            //capture animation
             monsterAnim.Play("notice");
 
+            //MUSIC TRANSITION!!!! @BJ over here!!!! this changes the music that the player is listening to the new teleporter's song ( parallel proccess)
             StartCoroutine(transition(masterPlayerScript.layerTheme, 1, 0));
 
 
@@ -104,6 +116,8 @@ public class MonsterTrickle : MonoBehaviour
 
         if ((Mathf.Abs((player.transform.position - transform.position).magnitude) < killDist +.5f ))
         {
+
+            //execute scream on delay
             monsterVoice.Play();
             
            // monsterVoice.clip = voices[Random.Range(0, voices.Length - 1)];
@@ -111,6 +125,7 @@ public class MonsterTrickle : MonoBehaviour
         }
         if (masterPlayerScript.move.x != 0 && masterPlayerScript.move.z != 0)
         {
+            //make the monster animate walk if the player is walking (this condition ^^ may not work)
             anim.Play("walk");
            
         }
@@ -123,11 +138,15 @@ public class MonsterTrickle : MonoBehaviour
     }
     public void reset()
     {
+        //reset this monster's current location, the player can invoke this too
         transform.localPosition = startPos;
-        Debug.Log("reset dopple" + transform.parent.name);
+       // Debug.Log("reset dopple" + transform.parent.name);
         //transform.position = -player.transform.forward * startingDist;
     }
 
+
+    //allow monster to attach to nearest surfaces
+    //THE MONSTER DOES NOT FLIP ORIENTATION TO PUT ITS FEET ON THE SURFACE --MUST BE IMPLEMENTED--
     Vector3 getNearestSurface()
     {
         //filter,output position(where to place the monster) preparatinon
@@ -164,6 +183,8 @@ public class MonsterTrickle : MonoBehaviour
         return endPos; // output the closest surface to place the monster
     }
 
+
+    //my own cross fade where the volume of the previous track is lowered and the volume of this track is raised
     IEnumerator transition(AudioSource src, float dur, float trgtVol)
     {
         float currentTime = 0;
@@ -178,13 +199,19 @@ public class MonsterTrickle : MonoBehaviour
         while (currentTime < dur)
         {
             currentTime += Time.deltaTime;
+            //smoothly lower the volume for every delta time of the while loop
             src.volume = Mathf.Lerp(start, trgtVol, currentTime / dur);
+            //smoothly raise the volume for every delta time of the while loop
             masterPlayerScript.layerTheme.volume = Mathf.Lerp(trgtVol, start, currentTime / dur);
+
+            //i tried creating a wavy effect
             masterPlayerScript.layerTheme.pitch =1* Mathf.Sin(currentTime);
-            Debug.Log(src.volume);
+           
             yield return null;
         }
+        //end the previous track
         src.Stop();
+        //make sure the new track is normal
         masterPlayerScript.layerTheme.pitch = 1;
         masterPlayerScript.layerTheme.volume = start;
         yield break;

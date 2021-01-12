@@ -9,13 +9,9 @@ public class soundRandom : MonoBehaviour
     public AudioSource ad;
     private float timeNext = 0;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
+    //BJ this is a random noise(literal hearing noise) picker
+    //every random seconds between 0 to 90 a noise will be played
     void Update()
     {
 

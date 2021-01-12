@@ -87,10 +87,11 @@ public class CharMove : MonoBehaviour
 
         if (move.x != 0 && move.z != 0 )
         {
-            
+            //makeshift timer to delay when the walk sound is played...not sure if this works
             if (nextTime < currTime)
             {
                 anim.Play("walk");
+                //@BJ SOUND PROBLEM HERE 
                 layerTheme.PlayOneShot(walk);
                 nextTime = currTime + timeOffset;
             }
@@ -105,10 +106,12 @@ public class CharMove : MonoBehaviour
         //apply actual movement normalized by the change in time scaled to the inputted player speed
         controller.Move(move * Time.deltaTime * playerSpeed);
 
+
+        //exit game key control @SYDNEY Refrence this to double the speed with SHIFT!!!
         if (Input.GetKey(KeyCode.Escape))
         {
-           // Cursor.lockState = CursorLockMode.Confined;
-            //SceneManager.LoadScene("main_menu");
+            Cursor.lockState = CursorLockMode.Confined;
+            SceneManager.LoadScene("main_menu");
             Debug.Log("close");
         }
 
@@ -116,12 +119,15 @@ public class CharMove : MonoBehaviour
 
     public void playAudio()
     {
-        layerTheme.Play();
+        //kind of a useless method.... consider deleting if  the player uses "on awawke" check box of audio source
+       layerTheme.Play();
     }
 
     public void ResetThismonster()
     {
         Debug.Log("main monster reset");
+
+        //resets this player's monster's reset function
         monstScript.reset();
     }
 }

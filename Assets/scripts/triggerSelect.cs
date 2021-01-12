@@ -4,21 +4,17 @@ using UnityEngine;
 
 public class triggerSelect : MonoBehaviour
 {
+    //ALL EVENT SCRIPTS NEED TO REFRENCE THIS BOOLEAN VARIABLE!!
     public bool isTriggered = false;
+
+    //the object being checked for
     public GameObject key;
+
+    //i tried making this glow but it didnt work...try adding new shaders
     public Shader shad;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
+    //when the collider's key is detected, set this boolean to true
     void OnTriggerEnter(Collider col)
     {
         if (col.gameObject == key)
@@ -29,12 +25,14 @@ public class triggerSelect : MonoBehaviour
         }
         else
         {
-            isTriggered = false;
+            //enable this so that adding other object will set this to false(can be problimatic)
+            //isTriggered = false;
         }
         
     }
     void OnTriggerExit(Collider col)
     {
+        //if the key is removed this modifier is disabled
         if (col.gameObject == key)
         {
             isTriggered = false;
